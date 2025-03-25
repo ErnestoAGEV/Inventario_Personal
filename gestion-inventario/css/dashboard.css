@@ -1,0 +1,8 @@
+/* === dashboard.css (Estilos del dashboard) === */
+#inventory-list div {
+    margin: 5px;
+    padding: 10px;
+    background: white;
+    box-shadow: 0px 0px 5px #aaa;
+    border-radius: 5px;
+}

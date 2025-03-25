@@ -1,0 +1,9 @@
+/* === login.css (Estilos de login) === */
+.login-container {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 0px 10px #aaa;
+    border-radius: 10px;
+}
