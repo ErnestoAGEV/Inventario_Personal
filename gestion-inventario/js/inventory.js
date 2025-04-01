@@ -63,3 +63,7 @@ function logout() {
     localStorage.removeItem("currentUser");
     window.location.href = "../pages/login.html";
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    updateInventory();
+});

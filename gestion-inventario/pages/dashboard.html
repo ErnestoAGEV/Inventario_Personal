@@ -12,6 +12,14 @@
         <h1>Panel de Inventario</h1>
         <button class="btn btn-danger" onclick="logout()">Cerrar sesión</button>
     </div>
+    
+    <div id="supervisor-section" class="mb-3" style="display: none;">
+        <label for="user-select" class="form-label">Seleccionar usuario:</label>
+        <select id="user-select" class="form-select" onchange="updateInventory()">
+            <option value="">Seleccionar usuario...</option>
+        </select>
+    </div>
+
     <div class="card p-4 shadow">
         <div class="mb-3">
             <input type="text" id="item-name" class="form-control" placeholder="Nombre del producto" onkeypress="handleEnterAdd(event)">
@@ -21,8 +29,11 @@
         </div>
         <button class="btn btn-primary w-100" onclick="addItem()">Agregar Producto</button>
     </div>
+
     <div class="mt-4">
         <h3>Inventario</h3>
+        <input type="text" id="search-bar" class="form-control mb-3" placeholder="Buscar producto..." onkeyup="filterInventory()">
+
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -32,12 +43,11 @@
                         <th class="text-center">Opciones</th>
                     </tr>
                 </thead>
-                <tbody id="inventory-list">
-                    <!-- Productos se cargarán aquí -->
-                </tbody>
+                <tbody id="inventory-list"></tbody>
             </table>
         </div>
     </div>
+
     <script src="../js/main.js"></script>
     <script src="../js/inventory.js"></script>
 </body>
