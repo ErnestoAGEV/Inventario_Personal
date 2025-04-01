@@ -27,12 +27,20 @@ function handleEnterLogin(event) {
 function register() {
     const username = document.getElementById("new-username").value;
     const password = document.getElementById("new-password").value;
-    
+
+    // Expresión regular para validar la contraseña
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+        alert("La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una letra minúscula, un número y un carácter especial.");
+        return;
+    }
+
     if (users.find(u => u.username === username)) {
         alert("El usuario ya existe");
         return;
     }
-    
+
     users.push({ username, password, role: "empleado" });
     localStorage.setItem("users", JSON.stringify(users));
     alert("Registro exitoso, ahora puedes iniciar sesión");

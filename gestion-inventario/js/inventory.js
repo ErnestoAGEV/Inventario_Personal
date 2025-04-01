@@ -3,18 +3,29 @@ const currentUser = localStorage.getItem("currentUser");
 if (!inventory[currentUser]) inventory[currentUser] = [];
 
 function addItem() {
-    const name = document.getElementById("item-name").value;
-    const quantity = document.getElementById("item-quantity").value;
+    const name = document.getElementById("item-name").value.trim();
+    const quantity = document.getElementById("item-quantity").value.trim();
 
-    if (name && quantity) {
-        inventory[currentUser].push({ name, quantity });
-        localStorage.setItem("inventory", JSON.stringify(inventory));
-        updateInventory();
-        document.getElementById("item-name").value = "";
-        document.getElementById("item-quantity").value = "";
-    } else {
+    if (!name || !quantity) {
         alert("Por favor, completa todos los campos.");
+        return;
     }
+
+    // Verificar si el producto ya existe
+    const existingItem = inventory[currentUser].find(item => item.name.toLowerCase() === name.toLowerCase());
+    if (existingItem) {
+        alert("El producto ya existe en el inventario.");
+        return;
+    }
+
+    // Agregar el nuevo producto
+    inventory[currentUser].push({ name, quantity });
+    localStorage.setItem("inventory", JSON.stringify(inventory));
+    updateInventory();
+
+    // Limpiar los campos de entrada
+    document.getElementById("item-name").value = "";
+    document.getElementById("item-quantity").value = "";
 }
 
 function handleEnterAdd(event) {
