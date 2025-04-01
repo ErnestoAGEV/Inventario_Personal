@@ -58,6 +58,27 @@ function updateInventory() {
     });
 }
 
+function filterInventory() {
+    const searchTerm = document.getElementById("search-bar").value.toLowerCase();
+    const inventoryList = document.getElementById("inventory-list");
+    inventoryList.innerHTML = "";
+
+    inventory[currentUser]
+        .filter(item => item.name.toLowerCase().includes(searchTerm))
+        .forEach((item, index) => {
+            const itemElement = document.createElement("tr");
+            itemElement.className = "text-center";
+            itemElement.innerHTML = `
+                <td>${item.name}</td>
+                <td>${item.quantity}</td>
+                <td>
+                    <button class='btn btn-warning btn-sm me-2' onclick='editItem(${index})'>Editar</button>
+                    <button class='btn btn-danger btn-sm' onclick='removeItem(${index})'>Eliminar</button>
+                </td>`;
+            inventoryList.appendChild(itemElement);
+        });
+}
+
 function logout() {
     localStorage.removeItem("role");
     localStorage.removeItem("currentUser");
@@ -65,5 +86,12 @@ function logout() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Actualizar el mensaje de bienvenida
+    const welcomeMessage = document.getElementById("welcome-message");
+    if (currentUser) {
+        welcomeMessage.textContent = `Hola, ${currentUser}! Bienvenido a tu inventario personal.`;
+    }
+
+    // Cargar el inventario
     updateInventory();
 });
