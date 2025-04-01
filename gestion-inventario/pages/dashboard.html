@@ -22,7 +22,7 @@
 
     <div class="card p-4 shadow">
         <div class="mb-3">
-            <input type="text" id="item-name" class="form-control" placeholder="Nombre del producto" onkeypress="handleEnterAdd(event)">
+            <input type="text" id="item-name" class="form-control" placeholder="Nombre del producto" onkeypress="validateLetters(event)">
         </div>
         <div class="mb-3">
             <input type="number" id="item-quantity" class="form-control" placeholder="Cantidad" onkeypress="handleEnterAdd(event)">
@@ -47,6 +47,8 @@
             </table>
         </div>
     </div>
+
+    <div id="notification-container" class="position-fixed top-0 start-50 translate-middle-x" style="z-index: 1050; max-width: 300px;"></div>
 
     <script src="../js/main.js"></script>
     <script src="../js/inventory.js"></script>

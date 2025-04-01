@@ -2,6 +2,32 @@ let inventory = JSON.parse(localStorage.getItem("inventory")) || {};
 const currentUser = localStorage.getItem("currentUser");
 if (!inventory[currentUser]) inventory[currentUser] = [];
 
+// Función para mostrar notificaciones
+function showNotification(message, type = "success") {
+    const notificationContainer = document.getElementById("notification-container");
+    const notification = document.createElement("div");
+
+    // Estilo de la notificación
+    notification.className = `alert alert-${type} alert-dismissible fade show text-center shadow-sm`;
+    notification.role = "alert";
+    notification.style.fontSize = "0.9rem"; // Texto más pequeño
+    notification.style.padding = "10px 20px"; // Relleno adicional para evitar que el texto se encime con la 'x'
+    notification.style.marginTop = "10px"; // Espaciado entre notificaciones
+    notification.innerHTML = `
+        <span>${message}</span>
+    `;
+
+    // Agregar la notificación al contenedor
+    notificationContainer.appendChild(notification);
+
+    // Eliminar la notificación automáticamente después de 3 segundos
+    setTimeout(() => {
+        notification.classList.remove("show");
+        notification.classList.add("hide");
+        setTimeout(() => notification.remove(), 500); // Esperar a que termine la animación
+    }, 3000);
+}
+
 function addItem() {
     const name = document.getElementById("item-name").value.trim();
     const quantity = document.getElementById("item-quantity").value.trim();
@@ -22,6 +48,9 @@ function addItem() {
     inventory[currentUser].push({ name, quantity });
     localStorage.setItem("inventory", JSON.stringify(inventory));
     updateInventory();
+
+    // Mostrar notificación de éxito
+    showNotification("Producto agregado correctamente.");
 
     // Limpiar los campos de entrada
     document.getElementById("item-name").value = "";
@@ -96,6 +125,28 @@ function logout() {
     window.location.href = "../pages/login.html";
 }
 
+// Permitir solo letras en el campo de nombre
+function validateLetters(event) {
+    const charCode = event.charCode || event.keyCode;
+    const char = String.fromCharCode(charCode);
+    const regex = /^[a-zA-Z\s]+$/; // Solo letras y espacios
+
+    if (!regex.test(char)) {
+        event.preventDefault();
+    }
+}
+
+// Permitir solo números en el campo de cantidad
+function validateNumbers(event) {
+    const charCode = event.charCode || event.keyCode;
+    const char = String.fromCharCode(charCode);
+    const regex = /^[0-9]+$/; // Solo números
+
+    if (!regex.test(char)) {
+        event.preventDefault();
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     // Actualizar el mensaje de bienvenida
     const welcomeMessage = document.getElementById("welcome-message");
@@ -105,4 +156,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Cargar el inventario
     updateInventory();
+
+    // Agregar campos de entrada
+    const inputContainer = document.getElementById("input-container");
+    inputContainer.innerHTML = `
+        <div class="mb-3">
+            <input type="text" id="item-name" class="form-control" placeholder="Nombre del producto" onkeypress="validateLetters(event)">
+        </div>
+        <div class="mb-3">
+            <input type="number" id="item-quantity" class="form-control" placeholder="Cantidad" onkeypress="handleEnterAdd(event)">
+        </div>
+    `;
 });
